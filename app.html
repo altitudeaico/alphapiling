@@ -741,10 +741,6 @@
         <span class="icon">⚙️</span>
         Processing
       </div>
-      <div class="nav-item" onclick="showPage('tracker')">
-        <span class="icon">📋</span>
-        Tender Tracker
-      </div>
     </nav>
 
     <nav class="nav-section">
@@ -1081,13 +1077,6 @@
               </div>
             </div>
             <div class="stage-item" data-stage="7">
-              <div class="stage-icon">📋</div>
-              <div class="stage-info">
-                <div class="stage-name">Updating Tracker</div>
-                <div class="stage-status">Waiting...</div>
-              </div>
-            </div>
-            <div class="stage-item" data-stage="8">
               <div class="stage-icon">✉️</div>
               <div class="stage-info">
                 <div class="stage-name">Sending Acknowledgement</div>
@@ -1107,82 +1096,6 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- Tender Tracker Page -->
-    <div id="page-tracker" class="page">
-      <div class="page-header">
-        <div>
-          <h1 class="page-title">Tender Tracker</h1>
-          <p class="page-subtitle">All your active and historical tenders in one place</p>
-        </div>
-        <button class="btn btn-primary">
-          + Add Manually
-        </button>
-      </div>
-
-      <div class="card">
-        <table class="tracker-table">
-          <thead>
-            <tr>
-              <th>Project</th>
-              <th>Client</th>
-              <th>Received</th>
-              <th>Due Date</th>
-              <th>Piles</th>
-              <th>Value</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody id="trackerBody">
-            <tr class="animate-in">
-              <td style="font-weight: 600;">Riverside Development Ph2</td>
-              <td>Wilson Contractors</td>
-              <td>14 Mar 2026</td>
-              <td>28 Mar 2026</td>
-              <td>12</td>
-              <td>—</td>
-              <td><span class="status-badge status-new">New</span></td>
-            </tr>
-            <tr>
-              <td style="font-weight: 600;">Canary Wharf Tower</td>
-              <td>CW Developments</td>
-              <td>10 Mar 2026</td>
-              <td>24 Mar 2026</td>
-              <td>28</td>
-              <td>£380k</td>
-              <td><span class="status-badge status-pricing">Pricing</span></td>
-            </tr>
-            <tr>
-              <td style="font-weight: 600;">Manchester Arena</td>
-              <td>ASM Global</td>
-              <td>08 Mar 2026</td>
-              <td>22 Mar 2026</td>
-              <td>45</td>
-              <td>£420k</td>
-              <td><span class="status-badge status-submitted">Submitted</span></td>
-            </tr>
-            <tr>
-              <td style="font-weight: 600;">Birmingham HS2 Station</td>
-              <td>HS2 Ltd</td>
-              <td>01 Mar 2026</td>
-              <td>15 Mar 2026</td>
-              <td>89</td>
-              <td>£1.2m</td>
-              <td><span class="status-badge status-won">Won</span></td>
-            </tr>
-            <tr>
-              <td style="font-weight: 600;">Leeds Waterfront</td>
-              <td>Urban Regeneration</td>
-              <td>25 Feb 2026</td>
-              <td>10 Mar 2026</td>
-              <td>34</td>
-              <td>£290k</td>
-              <td><span class="status-badge status-submitted">Submitted</span></td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </div>
 
@@ -1675,30 +1588,9 @@ async function processEnquiry(id) {
   stages[6].querySelector('.stage-status').textContent = '6 folders created';
   await sleep(400);
 
-  // Stage 7: Tracker
+  // Stage 7: Acknowledgement
   stages[7].classList.add('active');
-  stages[7].querySelector('.stage-status').textContent = 'Adding to tracker...';
-  preview.innerHTML = `
-    <div>
-      <div style="font-size: 16px; font-weight: 500; margin-bottom: 16px;">Tender Tracker Updated</div>
-      <div style="background: var(--orange-light); border-left: 4px solid var(--orange); padding: 16px; border-radius: 0 10px 10px 0; animation: fadeIn 0.3s ease;">
-        <div style="font-weight: 600; margin-bottom: 4px;">Riverside Development Phase 2</div>
-        <div style="font-size: 13px; color: var(--text-secondary); display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px;">
-          <div><strong>Client:</strong> Wilson</div>
-          <div><strong>Due:</strong> 28 Mar</div>
-          <div><strong>Piles:</strong> 12</div>
-        </div>
-      </div>
-    </div>
-  `;
-  await sleep(800);
-  stages[7].classList.remove('active');
-  stages[7].classList.add('complete');
-  stages[7].querySelector('.stage-status').textContent = 'Row added';
-
-  // Stage 8: Reply (was stage 7)
-  stages[8].classList.add('active');
-  stages[8].querySelector('.stage-status').textContent = 'Sending email...';
+  stages[7].querySelector('.stage-status').textContent = 'Sending email...';
   preview.innerHTML = `
     <div>
       <div style="font-size: 16px; font-weight: 500; margin-bottom: 16px;">Acknowledgement Sent</div>
@@ -1721,9 +1613,9 @@ async function processEnquiry(id) {
     </div>
   `;
   await sleep(1000);
-  stages[8].classList.remove('active');
-  stages[8].classList.add('complete');
-  stages[8].querySelector('.stage-status').textContent = 'Email sent';
+  stages[7].classList.remove('active');
+  stages[7].classList.add('complete');
+  stages[7].querySelector('.stage-status').textContent = 'Email sent';
 
   // Complete
   preview.innerHTML = `

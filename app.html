@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alpha Piling Automation System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    :root {
+      --bg: #F5F5F7;
+      --card: #FFFFFF;
+      --text: #1d1d1f;
+      --text-secondary: #86868b;
+      --border: #E5E5EA;
+      --orange: #FF6B35;
+      --orange-light: #FFF5F0;
+      --green: #34C759;
+      --green-light: #E8F8EE;
+      --blue: #007AFF;
+      --blue-light: #E8F4FD;
+      --yellow: #FBBC04;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Layout */
+    .app {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 260px;
+      background: var(--card);
+      border-right: 1px solid var(--border);
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 8px 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--orange), #FF9500);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 4px 12px rgba(255,107,53,0.3);
+    }
+
+    .logo-text {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .logo-sub {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    .nav-section {
+      margin-bottom: 24px;
+    }
+
+    .nav-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 0 12px;
+      margin-bottom: 8px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .nav-item:hover {
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .nav-item.active {
+      background: var(--orange-light);
+      color: var(--orange);
+    }
+
+    .nav-item .icon {
+      font-size: 18px;
+    }
+
+    .nav-item .badge {
+      margin-left: auto;
+      background: var(--orange);
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 16px;
+      background: var(--bg);
+      border-radius: 12px;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--blue), #5856D6);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .user-name {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .user-role {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    /* Main Content */
+    .main {
+      flex: 1;
+      padding: 32px;
+      overflow-y: auto;
+    }
+
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+    }
+
+    .page-title {
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+    }
+
+    .page-subtitle {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--text);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+
+    .btn-secondary {
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .stat-card .icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 16px;
+    }
+
+    .stat-card .value {
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -1px;
+    }
+
+    .stat-card .label {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    .stat-card .trend {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 500;
+      margin-top: 8px;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    .stat-card .trend.up {
+      background: var(--green-light);
+      color: var(--green);
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      overflow: hidden;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .card-body {
+      padding: 24px;
+    }
+
+    /* Inbox */
+    .email-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .email-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .email-item:hover {
+      background: var(--bg);
+    }
+
+    .email-item.unread {
+      background: var(--orange-light);
+    }
+
+    .email-item.unread:hover {
+      background: #FFE8DC;
+    }
+
+    .email-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 600;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .email-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .email-from {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .email-subject {
+      font-size: 14px;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .email-preview {
+      font-size: 13px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .email-meta {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .email-time {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .email-attachments {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    .email-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 500;
+      margin-top: 6px;
+    }
+
+    /* Processing View */
+    .process-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .process-stages {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .stage-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      background: var(--card);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .stage-item.active {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(255,107,53,0.15);
+    }
+
+    .stage-item.complete {
+      border-color: var(--green);
+      background: var(--green-light);
+    }
+
+    .stage-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      background: var(--bg);
+    }
+
+    .stage-item.active .stage-icon {
+      background: var(--orange);
+      color: white;
+    }
+
+    .stage-item.complete .stage-icon {
+      background: var(--green);
+      color: white;
+    }
+
+    .stage-info {
+      flex: 1;
+    }
+
+    .stage-name {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .stage-status {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .stage-item.active .stage-status {
+      color: var(--orange);
+    }
+
+    .stage-item.complete .stage-status {
+      color: var(--green);
+    }
+
+    /* Live Preview Panel */
+    .preview-panel {
+      background: var(--card);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .preview-header {
+      padding: 16px 20px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .preview-content {
+      padding: 20px;
+      min-height: 400px;
+    }
+
+    /* Excel Preview */
+    .excel-preview {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .excel-header {
+      display: grid;
+      grid-template-columns: 80px repeat(5, 1fr);
+      background: #217346;
+      color: white;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .excel-header div {
+      padding: 10px 12px;
+      border-right: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .excel-row {
+      display: grid;
+      grid-template-columns: 80px repeat(5, 1fr);
+      font-size: 13px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .excel-row:nth-child(even) {
+      background: #F9F9F9;
+    }
+
+    .excel-row div {
+      padding: 10px 12px;
+      border-right: 1px solid var(--border);
+    }
+
+    .excel-row .pile-ref {
+      font-weight: 600;
+      background: #E8F5E9;
+    }
+
+    .excel-row .load {
+      font-weight: 600;
+      color: var(--green);
+    }
+
+    /* Folder Tree */
+    .folder-tree {
+      font-size: 14px;
+    }
+
+    .folder-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      margin-bottom: 4px;
+      transition: background 0.2s;
+    }
+
+    .folder-item:hover {
+      background: var(--bg);
+    }
+
+    .folder-item.highlight {
+      background: var(--green-light);
+    }
+
+    .folder-item .icon {
+      font-size: 18px;
+    }
+
+    .folder-item .count {
+      margin-left: auto;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .folder-children {
+      margin-left: 28px;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .animate-in {
+      animation: fadeIn 0.4s ease;
+    }
+
+    .loading {
+      animation: pulse 1.5s ease infinite;
+    }
+
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--border);
+      border-top-color: var(--orange);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    /* Hidden pages */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* Tender Tracker Table */
+    .tracker-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .tracker-table th {
+      text-align: left;
+      padding: 12px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: var(--bg);
+    }
+
+    .tracker-table td {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+
+    .tracker-table tr:hover td {
+      background: var(--bg);
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .status-new { background: var(--orange-light); color: var(--orange); }
+    .status-pricing { background: var(--blue-light); color: var(--blue); }
+    .status-submitted { background: var(--green-light); color: var(--green); }
+    .status-won { background: #E8F5E9; color: #2E7D32; }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      background: var(--text);
+      color: white;
+      padding: 16px 24px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Progress ring */
+    .progress-ring {
+      position: relative;
+      width: 120px;
+      height: 120px;
+    }
+
+    .progress-ring svg {
+      transform: rotate(-90deg);
+    }
+
+    .progress-ring .bg {
+      fill: none;
+      stroke: var(--border);
+      stroke-width: 8;
+    }
+
+    .progress-ring .progress {
+      fill: none;
+      stroke: url(#progressGrad);
+      stroke-width: 8;
+      stroke-linecap: round;
+      stroke-dasharray: 314;
+      stroke-dashoffset: 314;
+      transition: stroke-dashoffset 0.1s linear;
+    }
+
+    .progress-ring .value {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 28px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+<div class="app">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-icon">⚡</div>
+      <div>
+        <div class="logo-text">Alpha Piling</div>
+        <div class="logo-sub">Automation System</div>
+      </div>
+    </div>
+
+    <nav class="nav-section">
+      <div class="nav-title">Main</div>
+      <div class="nav-item active" onclick="showPage('dashboard')">
+        <span class="icon">📊</span>
+        Dashboard
+      </div>
+      <div class="nav-item" onclick="showPage('inbox')">
+        <span class="icon">📧</span>
+        Inbox
+        <span class="badge">3</span>
+      </div>
+      <div class="nav-item" onclick="showPage('processing')">
+        <span class="icon">⚙️</span>
+        Processing
+      </div>
+      <div class="nav-item" onclick="showPage('tracker')">
+        <span class="icon">📋</span>
+        Tender Tracker
+      </div>
+    </nav>
+
+    <nav class="nav-section">
+      <div class="nav-title">Tools</div>
+      <div class="nav-item" onclick="showPage('drive')">
+        <span class="icon">📁</span>
+        Google Drive
+      </div>
+      <div class="nav-item" onclick="showPage('schedules')">
+        <span class="icon">📊</span>
+        Pile Schedules
+      </div>
+      <div class="nav-item" onclick="showPage('settings')">
+        <span class="icon">⚙️</span>
+        Settings
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <div class="user-avatar">JH</div>
+        <div>
+          <div class="user-name">Joe Hall</div>
+          <div class="user-role">Alpha Piling Ltd</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
+    
+    <!-- Dashboard Page -->
+    <div id="page-dashboard" class="page active">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Dashboard</h1>
+          <p class="page-subtitle">Welcome back, Joe. Here's what's happening today.</p>
+        </div>
+        <button class="btn btn-primary" onclick="showPage('inbox')">
+          📧 Check Inbox
+        </button>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="icon" style="background: var(--orange-light);">📧</div>
+          <div class="value">3</div>
+          <div class="label">New Enquiries</div>
+          <div class="trend up">↑ 2 from yesterday</div>
+        </div>
+        <div class="stat-card">
+          <div class="icon" style="background: var(--blue-light);">⚙️</div>
+          <div class="value">12</div>
+          <div class="label">Processed This Week</div>
+          <div class="trend up">↑ 34% vs last week</div>
+        </div>
+        <div class="stat-card">
+          <div class="icon" style="background: var(--green-light);">📊</div>
+          <div class="value">156</div>
+          <div class="label">Piles Extracted</div>
+          <div class="trend up">↑ 89 this week</div>
+        </div>
+        <div class="stat-card">
+          <div class="icon" style="background: #FFF3CD;">⏱️</div>
+          <div class="value">9.2h</div>
+          <div class="label">Time Saved</div>
+          <div class="trend up">≈ £230 saved</div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Recent Activity</div>
+          </div>
+          <div class="email-list">
+            <div class="email-item" onclick="processEnquiry('riverside')">
+              <div class="email-avatar" style="background: linear-gradient(135deg, #007AFF, #5856D6);">WC</div>
+              <div class="email-content">
+                <div class="email-from">Riverside Development Phase 2</div>
+                <div class="email-subject">Processed successfully</div>
+                <div class="email-preview">12 piles extracted • Folders created • Reply sent</div>
+              </div>
+              <div class="email-meta">
+                <div class="email-time">2 mins ago</div>
+                <div class="email-badge" style="background: var(--green-light); color: var(--green);">Complete</div>
+              </div>
+            </div>
+            <div class="email-item">
+              <div class="email-avatar" style="background: linear-gradient(135deg, var(--green), #30D158);">CW</div>
+              <div class="email-content">
+                <div class="email-from">Canary Wharf Tower</div>
+                <div class="email-subject">Awaiting pricing</div>
+                <div class="email-preview">28 piles • Ready for review</div>
+              </div>
+              <div class="email-meta">
+                <div class="email-time">Yesterday</div>
+                <div class="email-badge" style="background: var(--blue-light); color: var(--blue);">Pricing</div>
+              </div>
+            </div>
+            <div class="email-item">
+              <div class="email-avatar" style="background: linear-gradient(135deg, #FF6B35, #FF9500);">MS</div>
+              <div class="email-content">
+                <div class="email-from">Manchester Arena Expansion</div>
+                <div class="email-subject">Tender submitted</div>
+                <div class="email-preview">45 piles • £420k quoted</div>
+              </div>
+              <div class="email-meta">
+                <div class="email-time">2 days ago</div>
+                <div class="email-badge" style="background: var(--green-light); color: var(--green);">Submitted</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Quick Stats</div>
+          </div>
+          <div class="card-body">
+            <div style="margin-bottom: 24px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="font-size: 14px; color: var(--text-secondary);">Processing Success Rate</span>
+                <span style="font-size: 14px; font-weight: 600;">98%</span>
+              </div>
+              <div style="background: var(--border); border-radius: 4px; height: 8px; overflow: hidden;">
+                <div style="background: var(--green); height: 100%; width: 98%; border-radius: 4px;"></div>
+              </div>
+            </div>
+            <div style="margin-bottom: 24px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="font-size: 14px; color: var(--text-secondary);">Avg. Processing Time</span>
+                <span style="font-size: 14px; font-weight: 600;">47 sec</span>
+              </div>
+              <div style="background: var(--border); border-radius: 4px; height: 8px; overflow: hidden;">
+                <div style="background: var(--orange); height: 100%; width: 15%; border-radius: 4px;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="font-size: 14px; color: var(--text-secondary);">Win Rate (This Month)</span>
+                <span style="font-size: 14px; font-weight: 600;">42%</span>
+              </div>
+              <div style="background: var(--border); border-radius: 4px; height: 8px; overflow: hidden;">
+                <div style="background: var(--blue); height: 100%; width: 42%; border-radius: 4px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inbox Page -->
+    <div id="page-inbox" class="page">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Inbox</h1>
+          <p class="page-subtitle">3 new tender enquiries waiting to be processed</p>
+        </div>
+        <button class="btn btn-secondary">
+          ↻ Refresh
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="email-list">
+          <div class="email-item unread" onclick="processEnquiry('riverside')">
+            <div class="email-avatar" style="background: linear-gradient(135deg, #007AFF, #5856D6);">WC</div>
+            <div class="email-content">
+              <div class="email-from">Wilson Contractors</div>
+              <div class="email-subject">Tender Enquiry - Riverside Development Phase 2 - Piling Works</div>
+              <div class="email-preview">Dear Alpha Piling, We are pleased to invite you to tender for the piling works package...</div>
+            </div>
+            <div class="email-meta">
+              <div class="email-time">09:23</div>
+              <div class="email-attachments">📎 7 files • 312 MB</div>
+              <div class="email-badge" style="background: var(--orange-light); color: var(--orange);">New</div>
+            </div>
+          </div>
+          <div class="email-item unread">
+            <div class="email-avatar" style="background: linear-gradient(135deg, #34C759, #30D158);">TH</div>
+            <div class="email-content">
+              <div class="email-from">Taylor Homes</div>
+              <div class="email-subject">RFQ - Foundation Piling - Meadowbrook Residential</div>
+              <div class="email-preview">Good morning, Please find attached our tender documents for the above project...</div>
+            </div>
+            <div class="email-meta">
+              <div class="email-time">08:45</div>
+              <div class="email-attachments">📎 4 files • 156 MB</div>
+              <div class="email-badge" style="background: var(--orange-light); color: var(--orange);">New</div>
+            </div>
+          </div>
+          <div class="email-item unread">
+            <div class="email-avatar" style="background: linear-gradient(135deg, #FF9500, #FFCC00);">BC</div>
+            <div class="email-content">
+              <div class="email-from">BuildCorp International</div>
+              <div class="email-subject">Urgent: Piling Tender - City Centre Tower</div>
+              <div class="email-preview">Tender deadline 21st March. High priority project requiring immediate attention...</div>
+            </div>
+            <div class="email-meta">
+              <div class="email-time">Yesterday</div>
+              <div class="email-attachments">📎 12 files • 580 MB</div>
+              <div class="email-badge" style="background: #FFF3CD; color: #856404;">Urgent</div>
+            </div>
+          </div>
+          <div class="email-item">
+            <div class="email-avatar" style="background: linear-gradient(135deg, #8E8E93, #636366);">CW</div>
+            <div class="email-content">
+              <div class="email-from">CW Developments</div>
+              <div class="email-subject">RE: Canary Wharf Tower - Additional Information</div>
+              <div class="email-preview">Thank you for your query. Please find attached the updated soil investigation...</div>
+            </div>
+            <div class="email-meta">
+              <div class="email-time">2 days ago</div>
+              <div class="email-attachments">📎 2 files • 45 MB</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Processing Page -->
+    <div id="page-processing" class="page">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Processing</h1>
+          <p class="page-subtitle">Riverside Development Phase 2 - Wilson Contractors</p>
+        </div>
+        <button class="btn btn-secondary" onclick="showPage('inbox')">
+          ← Back to Inbox
+        </button>
+      </div>
+
+      <div class="process-container">
+        <div>
+          <div class="process-stages" id="processStages">
+            <div class="stage-item" data-stage="0">
+              <div class="stage-icon">📧</div>
+              <div class="stage-info">
+                <div class="stage-name">Email Received</div>
+                <div class="stage-status">Waiting...</div>
+              </div>
+            </div>
+            <div class="stage-item" data-stage="1">
+              <div class="stage-icon">🔍</div>
+              <div class="stage-info">
+                <div class="stage-name">Scanning Documents</div>
+                <div class="stage-status">Waiting...</div>
+              </div>
+            </div>
+            <div class="stage-item" data-stage="2">
+              <div class="stage-icon">📑</div>
+              <div class="stage-info">
+                <div class="stage-name">Classifying Files</div>
+                <div class="stage-status">Waiting...</div>
+              </div>
+            </div>
+            <div class="stage-item" data-stage="3">
+              <div class="stage-icon">⚙️</div>
+              <div class="stage-info">
+                <div class="stage-name">Extracting Pile Data</div>
+                <div class="stage-status">Waiting...</div>
+              </div>
+            </div>
+            <div class="stage-item" data-stage="4">
+              <div class="stage-icon">📊</div>
+              <div class="stage-info">
+                <div class="stage-name">Generating Excel</div>
+                <div class="stage-status">Waiting...</div>
+              </div>
+            </div>
+            <div class="stage-item" data-stage="5">
+              <div class="stage-icon">📁</div>
+              <div class="stage-info">
+                <div class="stage-name">Organising Drive</div>
+                <div class="stage-status">Waiting...</div>
+              </div>
+            </div>
+            <div class="stage-item" data-stage="6">
+              <div class="stage-icon">📋</div>
+              <div class="stage-info">
+                <div class="stage-name">Updating Tracker</div>
+                <div class="stage-status">Waiting...</div>
+              </div>
+            </div>
+            <div class="stage-item" data-stage="7">
+              <div class="stage-icon">✉️</div>
+              <div class="stage-info">
+                <div class="stage-name">Sending Acknowledgement</div>
+                <div class="stage-status">Waiting...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-panel">
+          <div class="preview-header">LIVE PREVIEW</div>
+          <div class="preview-content" id="previewContent">
+            <div style="text-align: center; padding: 40px;">
+              <div style="font-size: 48px; margin-bottom: 16px;">📧</div>
+              <div style="font-size: 18px; font-weight: 500; margin-bottom: 8px;">Ready to Process</div>
+              <div style="font-size: 14px; color: var(--text-secondary);">Click an email from the inbox to start processing</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tender Tracker Page -->
+    <div id="page-tracker" class="page">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Tender Tracker</h1>
+          <p class="page-subtitle">All your active and historical tenders in one place</p>
+        </div>
+        <button class="btn btn-primary">
+          + Add Manually
+        </button>
+      </div>
+
+      <div class="card">
+        <table class="tracker-table">
+          <thead>
+            <tr>
+              <th>Project</th>
+              <th>Client</th>
+              <th>Received</th>
+              <th>Due Date</th>
+              <th>Piles</th>
+              <th>Value</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="trackerBody">
+            <tr class="animate-in">
+              <td style="font-weight: 600;">Riverside Development Ph2</td>
+              <td>Wilson Contractors</td>
+              <td>14 Mar 2026</td>
+              <td>28 Mar 2026</td>
+              <td>12</td>
+              <td>—</td>
+              <td><span class="status-badge status-new">New</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight: 600;">Canary Wharf Tower</td>
+              <td>CW Developments</td>
+              <td>10 Mar 2026</td>
+              <td>24 Mar 2026</td>
+              <td>28</td>
+              <td>£380k</td>
+              <td><span class="status-badge status-pricing">Pricing</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight: 600;">Manchester Arena</td>
+              <td>ASM Global</td>
+              <td>08 Mar 2026</td>
+              <td>22 Mar 2026</td>
+              <td>45</td>
+              <td>£420k</td>
+              <td><span class="status-badge status-submitted">Submitted</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight: 600;">Birmingham HS2 Station</td>
+              <td>HS2 Ltd</td>
+              <td>01 Mar 2026</td>
+              <td>15 Mar 2026</td>
+              <td>89</td>
+              <td>£1.2m</td>
+              <td><span class="status-badge status-won">Won</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight: 600;">Leeds Waterfront</td>
+              <td>Urban Regeneration</td>
+              <td>25 Feb 2026</td>
+              <td>10 Mar 2026</td>
+              <td>34</td>
+              <td>£290k</td>
+              <td><span class="status-badge status-submitted">Submitted</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Drive Page -->
+    <div id="page-drive" class="page">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Google Drive</h1>
+          <p class="page-subtitle">Automatically organised project folders</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <div class="folder-tree">
+            <div class="folder-item" style="font-weight: 600;">
+              <span class="icon">📁</span>
+              Alpha Piling Tenders
+              <span class="count">24 projects</span>
+            </div>
+            <div class="folder-children">
+              <div class="folder-item highlight">
+                <span class="icon">📂</span>
+                Riverside Development Ph2 - Wilson - 14-03-2026
+                <span class="count">New</span>
+              </div>
+              <div class="folder-children">
+                <div class="folder-item">
+                  <span class="icon">📂</span>
+                  01_Enquiry_Email
+                  <span class="count">2 files</span>
+                </div>
+                <div class="folder-item highlight">
+                  <span class="icon">📂</span>
+                  02_Drawings
+                  <span class="count">4 files</span>
+                </div>
+                <div class="folder-item highlight">
+                  <span class="icon">📂</span>
+                  03_Soil_Investigation
+                  <span class="count">1 file</span>
+                </div>
+                <div class="folder-item">
+                  <span class="icon">📂</span>
+                  04_Specifications
+                  <span class="count">2 files</span>
+                </div>
+                <div class="folder-item highlight">
+                  <span class="icon">📂</span>
+                  05_Extracted_Schedules
+                  <span class="count">1 file</span>
+                </div>
+                <div class="folder-item">
+                  <span class="icon">📂</span>
+                  06_Pricing
+                  <span class="count">Empty</span>
+                </div>
+              </div>
+              <div class="folder-item">
+                <span class="icon">📂</span>
+                Canary Wharf Tower - CW Dev - 10-03-2026
+                <span class="count">18 files</span>
+              </div>
+              <div class="folder-item">
+                <span class="icon">📂</span>
+                Manchester Arena - ASM - 08-03-2026
+                <span class="count">23 files</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Schedules Page -->
+    <div id="page-schedules" class="page">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Extracted Pile Schedules</h1>
+          <p class="page-subtitle">All extracted data ready for pricing</p>
+        </div>
+        <button class="btn btn-primary">
+          ↓ Download All
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Riverside Development Phase 2</div>
+          <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 13px;">
+            ↓ Export Excel
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="excel-preview">
+            <div class="excel-header">
+              <div>Pile Ref</div>
+              <div>Diameter (mm)</div>
+              <div>Length (m)</div>
+              <div>Cut-Off</div>
+              <div>Load (kN)</div>
+              <div>Grid</div>
+            </div>
+            <div class="excel-row"><div class="pile-ref">P1</div><div>450</div><div>12.5</div><div>+2.50</div><div class="load">850</div><div>A1</div></div>
+            <div class="excel-row"><div class="pile-ref">P2</div><div>450</div><div>12.5</div><div>+2.50</div><div class="load">850</div><div>A2</div></div>
+            <div class="excel-row"><div class="pile-ref">P3</div><div>600</div><div>15.0</div><div>+2.50</div><div class="load">1200</div><div>A3</div></div>
+            <div class="excel-row"><div class="pile-ref">P4</div><div>600</div><div>15.0</div><div>+2.50</div><div class="load">1200</div><div>B1</div></div>
+            <div class="excel-row"><div class="pile-ref">P5</div><div>450</div><div>12.5</div><div>+2.50</div><div class="load">920</div><div>B2</div></div>
+            <div class="excel-row"><div class="pile-ref">P6</div><div>750</div><div>18.0</div><div>+2.50</div><div class="load">1850</div><div>B3</div></div>
+            <div class="excel-row"><div class="pile-ref">P7</div><div>750</div><div>18.0</div><div>+2.50</div><div class="load">1850</div><div>C1</div></div>
+            <div class="excel-row"><div class="pile-ref">P8</div><div>450</div><div>12.5</div><div>+2.50</div><div class="load">780</div><div>C2</div></div>
+            <div class="excel-row"><div class="pile-ref">P9</div><div>600</div><div>15.0</div><div>+2.50</div><div class="load">1350</div><div>C3</div></div>
+            <div class="excel-row"><div class="pile-ref">P10</div><div>600</div><div>15.0</div><div>+2.50</div><div class="load">1350</div><div>D1</div></div>
+            <div class="excel-row"><div class="pile-ref">P11</div><div>450</div><div>14.0</div><div>+2.50</div><div class="load">950</div><div>D2</div></div>
+            <div class="excel-row"><div class="pile-ref">P12</div><div>900</div><div>20.0</div><div>+2.50</div><div class="load">2400</div><div>D3</div></div>
+          </div>
+          <div style="margin-top: 16px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary);">
+            <span><strong style="color: var(--text);">12</strong> piles total</span>
+            <span><strong style="color: var(--text);">4</strong> unique diameters</span>
+            <span><strong style="color: var(--text);">14,550 kN</strong> total load</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Page -->
+    <div id="page-settings" class="page">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Settings</h1>
+          <p class="page-subtitle">Configure your automation preferences</p>
+        </div>
+      </div>
+
+      <div style="display: grid; gap: 24px; max-width: 600px;">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Email Settings</div>
+          </div>
+          <div class="card-body">
+            <div style="margin-bottom: 20px;">
+              <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px;">Gmail Account</label>
+              <input type="text" value="tenders@alphapiling.co.uk" style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px;" readonly>
+            </div>
+            <div style="margin-bottom: 20px;">
+              <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px;">Check Interval</label>
+              <select style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px;">
+                <option>Every 5 minutes</option>
+                <option>Every 15 minutes</option>
+                <option>Every 30 minutes</option>
+              </select>
+            </div>
+            <div>
+              <label style="display: flex; align-items: center; gap: 12px; cursor: pointer;">
+                <input type="checkbox" checked style="width: 20px; height: 20px;">
+                <span style="font-size: 14px;">Send auto-acknowledgement emails</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Acknowledgement Template</div>
+          </div>
+          <div class="card-body">
+            <textarea style="width: 100%; height: 150px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; font-family: inherit; resize: vertical;">Dear {SENDER_NAME},
+
+Thank you for your tender enquiry for {PROJECT_NAME}.
+
+We confirm receipt of your documentation and will review the requirements. Our current lead time for tender returns is approximately 10 working days.
+
+We will be in touch should we require any clarification.
+
+Kind regards,
+Alpha Piling Ltd</textarea>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Folder Structure</div>
+          </div>
+          <div class="card-body">
+            <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 16px;">
+              Customise the subfolder names created for each project
+            </div>
+            <div style="display: grid; gap: 12px;">
+              <input type="text" value="01_Enquiry_Email" style="padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px;">
+              <input type="text" value="02_Drawings" style="padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px;">
+              <input type="text" value="03_Soil_Investigation" style="padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px;">
+              <input type="text" value="04_Specifications" style="padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px;">
+              <input type="text" value="05_Extracted_Schedules" style="padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px;">
+              <input type="text" value="06_Pricing" style="padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px;">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div class="toast" id="toast">
+  <span>✓</span>
+  <span id="toastMessage">Processing complete!</span>
+</div>
+
+<script>
+const piles = [
+  {ref:"P1", dia:450, len:"12.5", load:850, grid:"A1"},
+  {ref:"P2", dia:450, len:"12.5", load:850, grid:"A2"},
+  {ref:"P3", dia:600, len:"15.0", load:1200, grid:"A3"},
+  {ref:"P4", dia:600, len:"15.0", load:1200, grid:"B1"},
+  {ref:"P5", dia:450, len:"12.5", load:920, grid:"B2"},
+  {ref:"P6", dia:750, len:"18.0", load:1850, grid:"B3"},
+  {ref:"P7", dia:750, len:"18.0", load:1850, grid:"C1"},
+  {ref:"P8", dia:450, len:"12.5", load:780, grid:"C2"},
+  {ref:"P9", dia:600, len:"15.0", load:1350, grid:"C3"},
+  {ref:"P10", dia:600, len:"15.0", load:1350, grid:"D1"},
+  {ref:"P11", dia:450, len:"14.0", load:950, grid:"D2"},
+  {ref:"P12", dia:900, len:"20.0", load:2400, grid:"D3"}
+];
+
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + pageId).classList.add('active');
+  
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  event.target.closest('.nav-item')?.classList.add('active');
+}
+
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  document.getElementById('toastMessage').textContent = message;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+async function processEnquiry(id) {
+  showPage('processing');
+  document.querySelector('.nav-item:nth-child(3)').classList.add('active');
+  
+  const stages = document.querySelectorAll('.stage-item');
+  const preview = document.getElementById('previewContent');
+  
+  // Reset all stages
+  stages.forEach(s => {
+    s.classList.remove('active', 'complete');
+    s.querySelector('.stage-status').textContent = 'Waiting...';
+  });
+
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+  // Stage 0: Email received
+  stages[0].classList.add('active');
+  stages[0].querySelector('.stage-status').textContent = 'Processing...';
+  preview.innerHTML = `
+    <div style="padding: 20px; background: #F5F5F7; border-radius: 12px;">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+        <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #007AFF, #5856D6); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">WC</div>
+        <div>
+          <div style="font-weight: 600;">Wilson Contractors</div>
+          <div style="font-size: 13px; color: var(--text-secondary);">tenders@wilsoncontractors.co.uk</div>
+        </div>
+      </div>
+      <div style="font-weight: 600; margin-bottom: 8px;">Tender Enquiry - Riverside Development Phase 2</div>
+      <div style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">Dear Alpha Piling, We are pleased to invite you to tender for the piling works package on the above project...</div>
+      <div style="margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap;">
+        <span style="background: white; padding: 6px 12px; border-radius: 6px; font-size: 12px;">📎 Structural_Drawings.pdf</span>
+        <span style="background: white; padding: 6px 12px; border-radius: 6px; font-size: 12px;">📎 Soil_Investigation.pdf</span>
+        <span style="background: white; padding: 6px 12px; border-radius: 6px; font-size: 12px;">📎 +5 more</span>
+      </div>
+    </div>
+  `;
+  await sleep(1000);
+  stages[0].classList.remove('active');
+  stages[0].classList.add('complete');
+  stages[0].querySelector('.stage-status').textContent = 'Complete';
+
+  // Stage 1: Scanning
+  stages[1].classList.add('active');
+  stages[1].querySelector('.stage-status').textContent = 'Scanning 147 pages...';
+  preview.innerHTML = `
+    <div style="text-align: center; padding: 40px;">
+      <div class="progress-ring" style="margin: 0 auto 24px;">
+        <svg width="120" height="120">
+          <defs><linearGradient id="progressGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#FF6B35"/><stop offset="100%" stop-color="#FF9500"/></linearGradient></defs>
+          <circle class="bg" cx="60" cy="60" r="50"/>
+          <circle class="progress" id="scanProgress" cx="60" cy="60" r="50"/>
+        </svg>
+        <div class="value" id="scanValue">0</div>
+      </div>
+      <div style="font-size: 16px; font-weight: 500;">Scanning documents</div>
+      <div style="font-size: 14px; color: var(--text-secondary);" id="scanLabel">Reading structural drawings...</div>
+    </div>
+  `;
+  const progress = document.getElementById('scanProgress');
+  const value = document.getElementById('scanValue');
+  const label = document.getElementById('scanLabel');
+  for (let i = 0; i <= 147; i += 5) {
+    progress.style.strokeDashoffset = 314 - (314 * i / 147);
+    value.textContent = i;
+    if (i < 50) label.textContent = 'Reading structural drawings...';
+    else if (i < 100) label.textContent = 'Processing specifications...';
+    else label.textContent = 'Analysing soil reports...';
+    stages[1].querySelector('.stage-status').textContent = `Scanning page ${i} of 147...`;
+    await sleep(20);
+  }
+  value.textContent = '147';
+  stages[1].classList.remove('active');
+  stages[1].classList.add('complete');
+  stages[1].querySelector('.stage-status').textContent = '147 pages scanned';
+  await sleep(300);
+
+  // Stage 2: Classifying
+  stages[2].classList.add('active');
+  stages[2].querySelector('.stage-status').textContent = 'Identifying pile drawings...';
+  const docs = [
+    {name: 'STR-102 Pile Schedule', type: 'Pile drawing', match: 99},
+    {name: 'STR-103 Pile Schedule', type: 'Pile drawing', match: 99},
+    {name: 'STR-105 Load Table', type: 'Load schedule', match: 97},
+    {name: 'STR-101 Foundation', type: 'Pile drawing', match: 95},
+    {name: 'Soil Investigation', type: 'Geotechnical', match: 99},
+  ];
+  preview.innerHTML = `
+    <div>
+      <div style="font-size: 16px; font-weight: 500; margin-bottom: 16px;">Documents Classified</div>
+      <div id="docList"></div>
+    </div>
+  `;
+  const docList = document.getElementById('docList');
+  for (const doc of docs) {
+    docList.innerHTML += `
+      <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--green-light); border-radius: 10px; margin-bottom: 8px; animation: fadeIn 0.3s ease;">
+        <div style="width: 36px; height: 36px; background: white; border-radius: 8px; display: flex; align-items: center; justify-content: center;">✓</div>
+        <div style="flex: 1;">
+          <div style="font-weight: 500;">${doc.name}</div>
+          <div style="font-size: 12px; color: var(--green);">${doc.type} • ${doc.match}% match</div>
+        </div>
+      </div>
+    `;
+    await sleep(200);
+  }
+  docList.innerHTML += `<div style="text-align: center; padding: 12px; color: var(--text-secondary); font-size: 13px;">142 other files skipped (not relevant)</div>`;
+  stages[2].classList.remove('active');
+  stages[2].classList.add('complete');
+  stages[2].querySelector('.stage-status').textContent = '6 relevant files found';
+  await sleep(500);
+
+  // Stage 3: Extracting
+  stages[3].classList.add('active');
+  preview.innerHTML = `
+    <div>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <div style="font-size: 16px; font-weight: 500;">Extracting Pile Data</div>
+        <div id="pileCounter" style="background: var(--orange); color: white; padding: 4px 12px; border-radius: 12px; font-size: 13px; font-weight: 500;">0 / 12</div>
+      </div>
+      <div class="excel-preview" style="font-size: 12px;">
+        <div class="excel-header" style="grid-template-columns: 70px repeat(5, 1fr);">
+          <div>Pile</div><div>Ø mm</div><div>Length</div><div>Cut-Off</div><div>Load</div><div>Grid</div>
+        </div>
+        <div id="pileRows"></div>
+      </div>
+    </div>
+  `;
+  const rows = document.getElementById('pileRows');
+  const counter = document.getElementById('pileCounter');
+  for (let i = 0; i < piles.length; i++) {
+    const p = piles[i];
+    stages[3].querySelector('.stage-status').textContent = `Extracting ${p.ref}...`;
+    rows.innerHTML += `
+      <div class="excel-row" style="grid-template-columns: 70px repeat(5, 1fr); animation: fadeIn 0.2s ease;">
+        <div class="pile-ref">${p.ref}</div><div>${p.dia}</div><div>${p.len}m</div><div>+2.50</div><div class="load">${p.load}</div><div>${p.grid}</div>
+      </div>
+    `;
+    counter.textContent = `${i + 1} / 12`;
+    await sleep(120);
+  }
+  stages[3].classList.remove('active');
+  stages[3].classList.add('complete');
+  stages[3].querySelector('.stage-status').textContent = '12 piles extracted';
+  await sleep(400);
+
+  // Stage 4: Excel
+  stages[4].classList.add('active');
+  stages[4].querySelector('.stage-status').textContent = 'Creating spreadsheet...';
+  preview.innerHTML = `
+    <div style="text-align: center; padding: 40px;">
+      <div style="width: 80px; height: 80px; margin: 0 auto 20px; background: linear-gradient(135deg, #217346, #2E9E5A); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 36px; box-shadow: 0 8px 24px rgba(33,115,70,0.3);">📊</div>
+      <div style="font-size: 18px; font-weight: 600; margin-bottom: 4px;">Excel Generated</div>
+      <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 20px;">Pile_Schedule_Riverside_Ph2.xlsx</div>
+      <div style="display: inline-flex; gap: 20px; background: #F5F5F7; padding: 16px 24px; border-radius: 12px;">
+        <div style="text-align: center;"><div style="font-size: 24px; font-weight: 600;">12</div><div style="font-size: 11px; color: var(--text-secondary);">Piles</div></div>
+        <div style="text-align: center;"><div style="font-size: 24px; font-weight: 600;">6</div><div style="font-size: 11px; color: var(--text-secondary);">Columns</div></div>
+        <div style="text-align: center;"><div style="font-size: 24px; font-weight: 600; color: var(--green);">✓</div><div style="font-size: 11px; color: var(--text-secondary);">Ready</div></div>
+      </div>
+    </div>
+  `;
+  await sleep(1000);
+  stages[4].classList.remove('active');
+  stages[4].classList.add('complete');
+  stages[4].querySelector('.stage-status').textContent = 'Excel ready';
+
+  // Stage 5: Drive
+  stages[5].classList.add('active');
+  stages[5].querySelector('.stage-status').textContent = 'Creating folders...';
+  const folders = ['01_Enquiry_Email', '02_Drawings', '03_Soil_Investigation', '04_Specifications', '05_Extracted_Schedules', '06_Pricing'];
+  preview.innerHTML = `
+    <div>
+      <div style="font-size: 16px; font-weight: 500; margin-bottom: 16px;">Creating Project Folder</div>
+      <div style="display: flex; align-items: center; gap: 10px; padding: 12px; background: #FFF8E1; border-radius: 10px; margin-bottom: 16px;">
+        <span style="font-size: 24px;">📁</span>
+        <div>
+          <div style="font-weight: 600;">Riverside Development Ph2 - Wilson - 14-03-2026</div>
+          <div style="font-size: 12px; color: var(--text-secondary);">Google Drive</div>
+        </div>
+      </div>
+      <div id="folderList" style="margin-left: 20px;"></div>
+    </div>
+  `;
+  const folderList = document.getElementById('folderList');
+  for (const folder of folders) {
+    folderList.innerHTML += `
+      <div style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--green-light); border-radius: 8px; margin-bottom: 6px; animation: fadeIn 0.2s ease;">
+        <span>📂</span>
+        <span style="font-size: 14px;">${folder}</span>
+        <span style="margin-left: auto; color: var(--green);">✓</span>
+      </div>
+    `;
+    await sleep(150);
+  }
+  stages[5].classList.remove('active');
+  stages[5].classList.add('complete');
+  stages[5].querySelector('.stage-status').textContent = '6 folders created';
+  await sleep(400);
+
+  // Stage 6: Tracker
+  stages[6].classList.add('active');
+  stages[6].querySelector('.stage-status').textContent = 'Adding to tracker...';
+  preview.innerHTML = `
+    <div>
+      <div style="font-size: 16px; font-weight: 500; margin-bottom: 16px;">Tender Tracker Updated</div>
+      <div style="background: var(--orange-light); border-left: 4px solid var(--orange); padding: 16px; border-radius: 0 10px 10px 0; animation: fadeIn 0.3s ease;">
+        <div style="font-weight: 600; margin-bottom: 4px;">Riverside Development Phase 2</div>
+        <div style="font-size: 13px; color: var(--text-secondary); display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px;">
+          <div><strong>Client:</strong> Wilson</div>
+          <div><strong>Due:</strong> 28 Mar</div>
+          <div><strong>Piles:</strong> 12</div>
+        </div>
+      </div>
+    </div>
+  `;
+  await sleep(800);
+  stages[6].classList.remove('active');
+  stages[6].classList.add('complete');
+  stages[6].querySelector('.stage-status').textContent = 'Row added';
+
+  // Stage 7: Reply
+  stages[7].classList.add('active');
+  stages[7].querySelector('.stage-status').textContent = 'Sending email...';
+  preview.innerHTML = `
+    <div>
+      <div style="font-size: 16px; font-weight: 500; margin-bottom: 16px;">Acknowledgement Sent</div>
+      <div style="background: #F5F5F7; border-radius: 12px; padding: 20px;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+          <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #007AFF, #5856D6); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; font-weight: 600;">WC</div>
+          <div>
+            <div style="font-weight: 500;">To: tenders@wilsoncontractors.co.uk</div>
+            <div style="font-size: 12px; color: var(--text-secondary);">RE: Tender Enquiry - Riverside Development</div>
+          </div>
+        </div>
+        <div style="font-size: 14px; line-height: 1.6; color: var(--text-secondary);">
+          Dear Sarah,<br><br>
+          Thank you for your tender enquiry. We confirm receipt and will review.<br><br>
+          Lead time: <strong style="color: var(--text);">10 working days</strong><br><br>
+          <strong style="color: var(--text);">Alpha Piling Ltd</strong>
+        </div>
+        <div style="margin-top: 16px; color: var(--green); font-size: 13px;">✓ Delivered at ${new Date().toLocaleTimeString('en-GB', {hour: '2-digit', minute: '2-digit'})}</div>
+      </div>
+    </div>
+  `;
+  await sleep(1000);
+  stages[7].classList.remove('active');
+  stages[7].classList.add('complete');
+  stages[7].querySelector('.stage-status').textContent = 'Email sent';
+
+  // Complete
+  preview.innerHTML = `
+    <div style="text-align: center; padding: 40px;">
+      <div style="width: 80px; height: 80px; margin: 0 auto 20px; background: linear-gradient(135deg, #34C759, #30D158); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; color: white; box-shadow: 0 8px 32px rgba(52,199,89,0.3);">✓</div>
+      <div style="font-size: 24px; font-weight: 600; margin-bottom: 8px;">Processing Complete!</div>
+      <div style="font-size: 15px; color: var(--text-secondary); margin-bottom: 24px;">Riverside Development is ready for pricing</div>
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; max-width: 400px; margin: 0 auto;">
+        <div style="background: #F5F5F7; padding: 16px 8px; border-radius: 12px;"><div style="font-size: 24px; font-weight: 600; color: var(--orange);">147</div><div style="font-size: 11px; color: var(--text-secondary);">Pages</div></div>
+        <div style="background: #F5F5F7; padding: 16px 8px; border-radius: 12px;"><div style="font-size: 24px; font-weight: 600; color: var(--green);">6</div><div style="font-size: 11px; color: var(--text-secondary);">Found</div></div>
+        <div style="background: #F5F5F7; padding: 16px 8px; border-radius: 12px;"><div style="font-size: 24px; font-weight: 600; color: var(--blue);">12</div><div style="font-size: 11px; color: var(--text-secondary);">Piles</div></div>
+        <div style="background: #F5F5F7; padding: 16px 8px; border-radius: 12px;"><div style="font-size: 24px; font-weight: 600;">47s</div><div style="font-size: 11px; color: var(--text-secondary);">Time</div></div>
+      </div>
+      <div style="margin-top: 24px; background: linear-gradient(135deg, #FFF5F0, #E8F8EE); padding: 20px; border-radius: 16px; max-width: 300px; margin-left: auto; margin-right: auto;">
+        <div style="font-size: 13px; color: var(--text-secondary);">Time saved</div>
+        <div style="font-size: 36px; font-weight: 600;">~45 min</div>
+        <div style="font-size: 14px; color: var(--green);">≈ £15–20 saved</div>
+      </div>
+    </div>
+  `;
+
+  showToast('Riverside Development processed successfully!');
+}
+</script>
+
+</body>
+</html>

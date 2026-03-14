@@ -2,7 +2,26 @@
 
 An interactive proof-of-concept demonstrating the end-to-end enquiry automation system for Alpha Piling Ltd.
 
-![Demo Preview](preview.png)
+## Two Demos Available
+
+### 1. Quick Demo (`index.html`)
+A focused walkthrough showing the 8-step automation process in under a minute.
+
+**[View Quick Demo →](https://altitudeaico.github.io/alphapiling/)**
+
+### 2. Full App Simulation (`app.html`)
+A complete interactive prototype of the finished application with:
+- Dashboard with live stats
+- Inbox with unread enquiries
+- Full processing workflow with live preview
+- Tender tracker
+- Google Drive folder view
+- Extracted pile schedules (Excel preview)
+- Settings & configuration
+
+**[View Full App →](https://altitudeaico.github.io/alphapiling/app.html)**
+
+---
 
 ## What it demonstrates
 

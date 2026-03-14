@@ -863,9 +863,32 @@
 
         <div class="card">
           <div class="card-header">
-            <div class="card-title">Quick Stats</div>
+            <div class="card-title">System Status</div>
           </div>
           <div class="card-body">
+            <!-- Capacity Indicator -->
+            <div style="background: linear-gradient(135deg, var(--green-light), #D4EDDA); border-radius: 12px; padding: 16px; margin-bottom: 20px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                <span style="font-size: 13px; font-weight: 600; color: var(--green);">✓ System Ready</span>
+                <span style="font-size: 12px; color: var(--text-secondary);">Capacity: 20/week</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 12px; color: var(--text-secondary);">Queue:</span>
+                <span style="font-size: 12px; font-weight: 600;">3 pending</span>
+                <span style="font-size: 12px; color: var(--text-secondary);">•</span>
+                <span style="font-size: 12px; color: var(--green);">12 processed this week</span>
+              </div>
+            </div>
+            
+            <div style="margin-bottom: 24px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="font-size: 14px; color: var(--text-secondary);">Weekly Capacity Used</span>
+                <span style="font-size: 14px; font-weight: 600;">15/20 (75%)</span>
+              </div>
+              <div style="background: var(--border); border-radius: 4px; height: 8px; overflow: hidden;">
+                <div style="background: linear-gradient(90deg, var(--green), var(--orange)); height: 100%; width: 75%; border-radius: 4px;"></div>
+              </div>
+            </div>
             <div style="margin-bottom: 24px;">
               <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
                 <span style="font-size: 14px; color: var(--text-secondary);">Processing Success Rate</span>
@@ -910,6 +933,14 @@
         </button>
       </div>
 
+      <!-- File Source Legend -->
+      <div style="display: flex; gap: 16px; margin-bottom: 16px; font-size: 12px; color: var(--text-secondary);">
+        <span style="display: flex; align-items: center; gap: 4px;"><span style="font-size: 14px;">📎</span> Email Attachment</span>
+        <span style="display: flex; align-items: center; gap: 4px;"><span style="font-size: 14px;">📦</span> Dropbox Link</span>
+        <span style="display: flex; align-items: center; gap: 4px;"><span style="font-size: 14px;">🏗️</span> Dalux</span>
+        <span style="display: flex; align-items: center; gap: 4px;"><span style="font-size: 14px;">⚠️</span> Separate Load Tables</span>
+      </div>
+
       <div class="card">
         <div class="email-list">
           <div class="email-item unread" onclick="processEnquiry('riverside')">
@@ -921,11 +952,15 @@
             </div>
             <div class="email-meta">
               <div class="email-time">09:23</div>
-              <div class="email-attachments">📎 7 files • 312 MB</div>
+              <div class="email-attachments">
+                <span title="Email Attachments">📎 5 files</span>
+                <span title="Dropbox Link" style="margin-left: 6px;">📦 2 files</span>
+                <span style="margin-left: 6px;">• 312 MB</span>
+              </div>
               <div class="email-badge" style="background: var(--orange-light); color: var(--orange);">New</div>
             </div>
           </div>
-          <div class="email-item unread">
+          <div class="email-item unread" onclick="processEnquiry('meadowbrook')">
             <div class="email-avatar" style="background: linear-gradient(135deg, #34C759, #30D158);">TH</div>
             <div class="email-content">
               <div class="email-from">Taylor Homes</div>
@@ -934,11 +969,15 @@
             </div>
             <div class="email-meta">
               <div class="email-time">08:45</div>
-              <div class="email-attachments">📎 4 files • 156 MB</div>
+              <div class="email-attachments">
+                <span title="Dalux Project Files">🏗️ Dalux</span>
+                <span style="margin-left: 6px;">• 156 MB</span>
+                <span title="Has separate load table - will need special handling" style="margin-left: 6px; color: #FF9500;">⚠️</span>
+              </div>
               <div class="email-badge" style="background: var(--orange-light); color: var(--orange);">New</div>
             </div>
           </div>
-          <div class="email-item unread">
+          <div class="email-item unread" onclick="processEnquiry('citycentre')">
             <div class="email-avatar" style="background: linear-gradient(135deg, #FF9500, #FFCC00);">BC</div>
             <div class="email-content">
               <div class="email-from">BuildCorp International</div>
@@ -947,7 +986,12 @@
             </div>
             <div class="email-meta">
               <div class="email-time">Yesterday</div>
-              <div class="email-attachments">📎 12 files • 580 MB</div>
+              <div class="email-attachments">
+                <span title="Email Attachments">📎 8 files</span>
+                <span title="Dropbox Link" style="margin-left: 6px;">📦 4 files</span>
+                <span style="margin-left: 6px;">• 580 MB</span>
+                <span title="Has separate load table - will need special handling" style="margin-left: 6px; color: #FF9500;">⚠️</span>
+              </div>
               <div class="email-badge" style="background: #FFF3CD; color: #856404;">Urgent</div>
             </div>
           </div>
@@ -960,7 +1004,10 @@
             </div>
             <div class="email-meta">
               <div class="email-time">2 days ago</div>
-              <div class="email-attachments">📎 2 files • 45 MB</div>
+              <div class="email-attachments">
+                <span title="Email Attachments">📎 2 files</span>
+                <span style="margin-left: 6px;">• 45 MB</span>
+              </div>
             </div>
           </div>
         </div>
@@ -990,48 +1037,57 @@
               </div>
             </div>
             <div class="stage-item" data-stage="1">
+              <div class="stage-icon">📥</div>
+              <div class="stage-info">
+                <div class="stage-name">Downloading Files</div>
+                <div class="stage-detail" style="font-size: 11px; color: var(--text-secondary); display: none;">Handles: Email, Dropbox, Dalux</div>
+                <div class="stage-status">Waiting...</div>
+              </div>
+            </div>
+            <div class="stage-item" data-stage="2">
               <div class="stage-icon">🔍</div>
               <div class="stage-info">
                 <div class="stage-name">Scanning Documents</div>
                 <div class="stage-status">Waiting...</div>
               </div>
             </div>
-            <div class="stage-item" data-stage="2">
+            <div class="stage-item" data-stage="3">
               <div class="stage-icon">📑</div>
               <div class="stage-info">
                 <div class="stage-name">Classifying Files</div>
                 <div class="stage-status">Waiting...</div>
               </div>
             </div>
-            <div class="stage-item" data-stage="3">
+            <div class="stage-item" data-stage="4">
               <div class="stage-icon">⚙️</div>
               <div class="stage-info">
                 <div class="stage-name">Extracting Pile Data</div>
+                <div class="stage-detail" style="font-size: 11px; color: var(--text-secondary); display: none;">Inc. separate load tables</div>
                 <div class="stage-status">Waiting...</div>
               </div>
             </div>
-            <div class="stage-item" data-stage="4">
+            <div class="stage-item" data-stage="5">
               <div class="stage-icon">📊</div>
               <div class="stage-info">
                 <div class="stage-name">Generating Excel</div>
                 <div class="stage-status">Waiting...</div>
               </div>
             </div>
-            <div class="stage-item" data-stage="5">
+            <div class="stage-item" data-stage="6">
               <div class="stage-icon">📁</div>
               <div class="stage-info">
                 <div class="stage-name">Organising Drive</div>
                 <div class="stage-status">Waiting...</div>
               </div>
             </div>
-            <div class="stage-item" data-stage="6">
+            <div class="stage-item" data-stage="7">
               <div class="stage-icon">📋</div>
               <div class="stage-info">
                 <div class="stage-name">Updating Tracker</div>
                 <div class="stage-status">Waiting...</div>
               </div>
             </div>
-            <div class="stage-item" data-stage="7">
+            <div class="stage-item" data-stage="8">
               <div class="stage-icon">✉️</div>
               <div class="stage-info">
                 <div class="stage-name">Sending Acknowledgement</div>
@@ -1377,6 +1433,8 @@ async function processEnquiry(id) {
   stages.forEach(s => {
     s.classList.remove('active', 'complete');
     s.querySelector('.stage-status').textContent = 'Waiting...';
+    const detail = s.querySelector('.stage-detail');
+    if (detail) detail.style.display = 'none';
   });
 
   const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -1397,7 +1455,7 @@ async function processEnquiry(id) {
       <div style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">Dear Alpha Piling, We are pleased to invite you to tender for the piling works package on the above project...</div>
       <div style="margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap;">
         <span style="background: white; padding: 6px 12px; border-radius: 6px; font-size: 12px;">📎 Structural_Drawings.pdf</span>
-        <span style="background: white; padding: 6px 12px; border-radius: 6px; font-size: 12px;">📎 Soil_Investigation.pdf</span>
+        <span style="background: white; padding: 6px 12px; border-radius: 6px; font-size: 12px;">📦 Dropbox: Soil Reports</span>
         <span style="background: white; padding: 6px 12px; border-radius: 6px; font-size: 12px;">📎 +5 more</span>
       </div>
     </div>
@@ -1407,9 +1465,49 @@ async function processEnquiry(id) {
   stages[0].classList.add('complete');
   stages[0].querySelector('.stage-status').textContent = 'Complete';
 
-  // Stage 1: Scanning
+  // Stage 1: Downloading Files (NEW - handles Email, Dropbox, Dalux)
   stages[1].classList.add('active');
-  stages[1].querySelector('.stage-status').textContent = 'Scanning 147 pages...';
+  const stage1Detail = stages[1].querySelector('.stage-detail');
+  if (stage1Detail) stage1Detail.style.display = 'block';
+  stages[1].querySelector('.stage-status').textContent = 'Connecting to sources...';
+  preview.innerHTML = `
+    <div style="padding: 20px;">
+      <div style="font-size: 16px; font-weight: 500; margin-bottom: 16px;">Downloading Files from Multiple Sources</div>
+      <div id="downloadSources"></div>
+    </div>
+  `;
+  const sources = [
+    {icon: '📎', name: 'Email Attachments', files: 5, status: 'complete'},
+    {icon: '📦', name: 'Dropbox Link', files: 2, status: 'complete'},
+  ];
+  const downloadList = document.getElementById('downloadSources');
+  for (const src of sources) {
+    stages[1].querySelector('.stage-status').textContent = `Fetching from ${src.name}...`;
+    downloadList.innerHTML += `
+      <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: var(--green-light); border-radius: 10px; margin-bottom: 8px; animation: fadeIn 0.3s ease;">
+        <div style="font-size: 24px;">${src.icon}</div>
+        <div style="flex: 1;">
+          <div style="font-weight: 500;">${src.name}</div>
+          <div style="font-size: 12px; color: var(--green);">${src.files} files downloaded</div>
+        </div>
+        <div style="color: var(--green); font-size: 20px;">✓</div>
+      </div>
+    `;
+    await sleep(600);
+  }
+  downloadList.innerHTML += `
+    <div style="margin-top: 16px; padding: 12px; background: #E3F2FD; border-radius: 8px; font-size: 13px; color: #1565C0;">
+      <strong>ℹ️ Supported sources:</strong> Email attachments, Dropbox links, Dalux project files
+    </div>
+  `;
+  await sleep(400);
+  stages[1].classList.remove('active');
+  stages[1].classList.add('complete');
+  stages[1].querySelector('.stage-status').textContent = '7 files downloaded';
+
+  // Stage 2: Scanning
+  stages[2].classList.add('active');
+  stages[2].querySelector('.stage-status').textContent = 'Scanning 147 pages...';
   preview.innerHTML = `
     <div style="text-align: center; padding: 40px;">
       <div class="progress-ring" style="margin: 0 auto 24px;">
@@ -1433,24 +1531,24 @@ async function processEnquiry(id) {
     if (i < 50) label.textContent = 'Reading structural drawings...';
     else if (i < 100) label.textContent = 'Processing specifications...';
     else label.textContent = 'Analysing soil reports...';
-    stages[1].querySelector('.stage-status').textContent = `Scanning page ${i} of 147...`;
+    stages[2].querySelector('.stage-status').textContent = `Scanning page ${i} of 147...`;
     await sleep(20);
   }
   value.textContent = '147';
-  stages[1].classList.remove('active');
-  stages[1].classList.add('complete');
-  stages[1].querySelector('.stage-status').textContent = '147 pages scanned';
+  stages[2].classList.remove('active');
+  stages[2].classList.add('complete');
+  stages[2].querySelector('.stage-status').textContent = '147 pages scanned';
   await sleep(300);
 
-  // Stage 2: Classifying
-  stages[2].classList.add('active');
-  stages[2].querySelector('.stage-status').textContent = 'Identifying pile drawings...';
+  // Stage 3: Classifying (includes separate load table detection)
+  stages[3].classList.add('active');
+  stages[3].querySelector('.stage-status').textContent = 'Identifying pile drawings...';
   const docs = [
-    {name: 'STR-102 Pile Schedule', type: 'Pile drawing', match: 99},
-    {name: 'STR-103 Pile Schedule', type: 'Pile drawing', match: 99},
-    {name: 'STR-105 Load Table', type: 'Load schedule', match: 97},
-    {name: 'STR-101 Foundation', type: 'Pile drawing', match: 95},
-    {name: 'Soil Investigation', type: 'Geotechnical', match: 99},
+    {name: 'STR-102 Pile Schedule', type: 'Pile drawing', match: 99, icon: '📐'},
+    {name: 'STR-103 Pile Schedule', type: 'Pile drawing', match: 99, icon: '📐'},
+    {name: 'STR-105 Load Table', type: 'Separate load table', match: 97, icon: '⚠️', warning: true},
+    {name: 'STR-101 Foundation', type: 'Pile drawing', match: 95, icon: '📐'},
+    {name: 'Soil Investigation', type: 'Geotechnical', match: 99, icon: '🔬'},
   ];
   preview.innerHTML = `
     <div>
@@ -1460,30 +1558,43 @@ async function processEnquiry(id) {
   `;
   const docList = document.getElementById('docList');
   for (const doc of docs) {
+    const bgColor = doc.warning ? '#FFF3E0' : 'var(--green-light)';
+    const borderColor = doc.warning ? '#FF9800' : 'transparent';
     docList.innerHTML += `
-      <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--green-light); border-radius: 10px; margin-bottom: 8px; animation: fadeIn 0.3s ease;">
-        <div style="width: 36px; height: 36px; background: white; border-radius: 8px; display: flex; align-items: center; justify-content: center;">✓</div>
+      <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: ${bgColor}; border: 1px solid ${borderColor}; border-radius: 10px; margin-bottom: 8px; animation: fadeIn 0.3s ease;">
+        <div style="width: 36px; height: 36px; background: white; border-radius: 8px; display: flex; align-items: center; justify-content: center;">${doc.icon}</div>
         <div style="flex: 1;">
           <div style="font-weight: 500;">${doc.name}</div>
-          <div style="font-size: 12px; color: var(--green);">${doc.type} • ${doc.match}% match</div>
+          <div style="font-size: 12px; color: ${doc.warning ? '#E65100' : 'var(--green)'};">${doc.type} • ${doc.match}% match</div>
         </div>
+        ${doc.warning ? '<div style="font-size: 11px; background: #FF9800; color: white; padding: 2px 8px; border-radius: 4px;">Will link to piles</div>' : ''}
       </div>
     `;
     await sleep(200);
   }
+  docList.innerHTML += `
+    <div style="margin-top: 12px; padding: 12px; background: #FFF8E1; border-radius: 8px; font-size: 12px; color: #F57C00;">
+      <strong>⚠️ Separate load table detected:</strong> STR-105 contains loads that will be matched to pile references in STR-102/103
+    </div>
+  `;
   docList.innerHTML += `<div style="text-align: center; padding: 12px; color: var(--text-secondary); font-size: 13px;">142 other files skipped (not relevant)</div>`;
-  stages[2].classList.remove('active');
-  stages[2].classList.add('complete');
-  stages[2].querySelector('.stage-status').textContent = '6 relevant files found';
+  stages[3].classList.remove('active');
+  stages[3].classList.add('complete');
+  stages[3].querySelector('.stage-status').textContent = '5 relevant + 1 load table';
   await sleep(500);
 
-  // Stage 3: Extracting
-  stages[3].classList.add('active');
+  // Stage 4: Extracting (with separate load table merging)
+  stages[4].classList.add('active');
+  const stage4Detail = stages[4].querySelector('.stage-detail');
+  if (stage4Detail) stage4Detail.style.display = 'block';
   preview.innerHTML = `
     <div>
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
         <div style="font-size: 16px; font-weight: 500;">Extracting Pile Data</div>
         <div id="pileCounter" style="background: var(--orange); color: white; padding: 4px 12px; border-radius: 12px; font-size: 13px; font-weight: 500;">0 / 12</div>
+      </div>
+      <div style="margin-bottom: 12px; padding: 10px; background: #E8F5E9; border-radius: 8px; font-size: 12px; color: #2E7D32;">
+        <strong>✓ Merging data:</strong> Pile refs from drawings + loads from separate table (STR-105)
       </div>
       <div class="excel-preview" style="font-size: 12px;">
         <div class="excel-header" style="grid-template-columns: 70px repeat(5, 1fr);">
@@ -1497,7 +1608,7 @@ async function processEnquiry(id) {
   const counter = document.getElementById('pileCounter');
   for (let i = 0; i < piles.length; i++) {
     const p = piles[i];
-    stages[3].querySelector('.stage-status').textContent = `Extracting ${p.ref}...`;
+    stages[4].querySelector('.stage-status').textContent = `Extracting ${p.ref}...`;
     rows.innerHTML += `
       <div class="excel-row" style="grid-template-columns: 70px repeat(5, 1fr); animation: fadeIn 0.2s ease;">
         <div class="pile-ref">${p.ref}</div><div>${p.dia}</div><div>${p.len}m</div><div>+2.50</div><div class="load">${p.load}</div><div>${p.grid}</div>
@@ -1506,14 +1617,14 @@ async function processEnquiry(id) {
     counter.textContent = `${i + 1} / 12`;
     await sleep(120);
   }
-  stages[3].classList.remove('active');
-  stages[3].classList.add('complete');
-  stages[3].querySelector('.stage-status').textContent = '12 piles extracted';
+  stages[4].classList.remove('active');
+  stages[4].classList.add('complete');
+  stages[4].querySelector('.stage-status').textContent = '12 piles extracted';
   await sleep(400);
 
-  // Stage 4: Excel
-  stages[4].classList.add('active');
-  stages[4].querySelector('.stage-status').textContent = 'Creating spreadsheet...';
+  // Stage 5: Excel
+  stages[5].classList.add('active');
+  stages[5].querySelector('.stage-status').textContent = 'Creating spreadsheet...';
   preview.innerHTML = `
     <div style="text-align: center; padding: 40px;">
       <div style="width: 80px; height: 80px; margin: 0 auto 20px; background: linear-gradient(135deg, #217346, #2E9E5A); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 36px; box-shadow: 0 8px 24px rgba(33,115,70,0.3);">📊</div>
@@ -1527,13 +1638,13 @@ async function processEnquiry(id) {
     </div>
   `;
   await sleep(1000);
-  stages[4].classList.remove('active');
-  stages[4].classList.add('complete');
-  stages[4].querySelector('.stage-status').textContent = 'Excel ready';
+  stages[5].classList.remove('active');
+  stages[5].classList.add('complete');
+  stages[5].querySelector('.stage-status').textContent = 'Excel ready';
 
-  // Stage 5: Drive
-  stages[5].classList.add('active');
-  stages[5].querySelector('.stage-status').textContent = 'Creating folders...';
+  // Stage 6: Drive
+  stages[6].classList.add('active');
+  stages[6].querySelector('.stage-status').textContent = 'Creating folders...';
   const folders = ['01_Enquiry_Email', '02_Drawings', '03_Soil_Investigation', '04_Specifications', '05_Extracted_Schedules', '06_Pricing'];
   preview.innerHTML = `
     <div>
@@ -1559,14 +1670,14 @@ async function processEnquiry(id) {
     `;
     await sleep(150);
   }
-  stages[5].classList.remove('active');
-  stages[5].classList.add('complete');
-  stages[5].querySelector('.stage-status').textContent = '6 folders created';
+  stages[6].classList.remove('active');
+  stages[6].classList.add('complete');
+  stages[6].querySelector('.stage-status').textContent = '6 folders created';
   await sleep(400);
 
-  // Stage 6: Tracker
-  stages[6].classList.add('active');
-  stages[6].querySelector('.stage-status').textContent = 'Adding to tracker...';
+  // Stage 7: Tracker
+  stages[7].classList.add('active');
+  stages[7].querySelector('.stage-status').textContent = 'Adding to tracker...';
   preview.innerHTML = `
     <div>
       <div style="font-size: 16px; font-weight: 500; margin-bottom: 16px;">Tender Tracker Updated</div>
@@ -1581,13 +1692,13 @@ async function processEnquiry(id) {
     </div>
   `;
   await sleep(800);
-  stages[6].classList.remove('active');
-  stages[6].classList.add('complete');
-  stages[6].querySelector('.stage-status').textContent = 'Row added';
+  stages[7].classList.remove('active');
+  stages[7].classList.add('complete');
+  stages[7].querySelector('.stage-status').textContent = 'Row added';
 
-  // Stage 7: Reply
-  stages[7].classList.add('active');
-  stages[7].querySelector('.stage-status').textContent = 'Sending email...';
+  // Stage 8: Reply (was stage 7)
+  stages[8].classList.add('active');
+  stages[8].querySelector('.stage-status').textContent = 'Sending email...';
   preview.innerHTML = `
     <div>
       <div style="font-size: 16px; font-weight: 500; margin-bottom: 16px;">Acknowledgement Sent</div>
@@ -1610,9 +1721,9 @@ async function processEnquiry(id) {
     </div>
   `;
   await sleep(1000);
-  stages[7].classList.remove('active');
-  stages[7].classList.add('complete');
-  stages[7].querySelector('.stage-status').textContent = 'Email sent';
+  stages[8].classList.remove('active');
+  stages[8].classList.add('complete');
+  stages[8].querySelector('.stage-status').textContent = 'Email sent';
 
   // Complete
   preview.innerHTML = `
@@ -1630,6 +1741,10 @@ async function processEnquiry(id) {
         <div style="font-size: 13px; color: var(--text-secondary);">Time saved</div>
         <div style="font-size: 36px; font-weight: 600;">~45 min</div>
         <div style="font-size: 14px; color: var(--green);">≈ £15–20 saved</div>
+      </div>
+      <div style="margin-top: 16px; padding: 12px; background: #E3F2FD; border-radius: 8px; font-size: 12px; color: #1565C0; max-width: 350px; margin-left: auto; margin-right: auto;">
+        <strong>📦 Sources handled:</strong> Email attachments + Dropbox link<br>
+        <strong>⚠️ Merged:</strong> Separate load table linked to pile refs
       </div>
     </div>
   `;

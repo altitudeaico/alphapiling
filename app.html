@@ -711,9 +711,270 @@
       font-size: 28px;
       font-weight: 600;
     }
+
+    /* Mobile Header */
+    .mobile-header {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 0 16px;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 1000;
+    }
+
+    .mobile-header .logo-icon {
+      width: 36px;
+      height: 36px;
+      font-size: 18px;
+    }
+
+    .mobile-menu-btn {
+      width: 40px;
+      height: 40px;
+      background: var(--bg);
+      border: none;
+      border-radius: 10px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      z-index: 1000;
+      padding: 8px 16px;
+    }
+
+    .mobile-nav-items {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 100%;
+    }
+
+    .mobile-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 10px;
+      color: var(--text-secondary);
+    }
+
+    .mobile-nav-item.active {
+      color: var(--orange);
+    }
+
+    .mobile-nav-item .icon {
+      font-size: 22px;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+
+      .mobile-header {
+        display: flex;
+      }
+
+      .mobile-nav {
+        display: block;
+      }
+
+      .main {
+        padding: 76px 16px 86px;
+      }
+
+      .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+
+      .page-title {
+        font-size: 24px;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .stat-card {
+        padding: 16px;
+      }
+
+      .stat-card .value {
+        font-size: 28px;
+      }
+
+      .email-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .email-meta {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .email-attachments {
+        font-size: 11px;
+      }
+
+      .processing-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .process-stages {
+        display: flex;
+        overflow-x: auto;
+        gap: 8px;
+        padding-bottom: 12px;
+      }
+
+      .stage-item {
+        flex-shrink: 0;
+        flex-direction: column;
+        text-align: center;
+        min-width: 80px;
+        padding: 12px 8px;
+      }
+
+      .stage-icon {
+        margin-bottom: 8px;
+      }
+
+      .stage-info {
+        width: 100%;
+      }
+
+      .stage-name {
+        font-size: 11px;
+      }
+
+      .stage-status {
+        font-size: 10px;
+      }
+
+      .stage-detail {
+        display: none !important;
+      }
+
+      .preview-panel {
+        min-height: 300px;
+      }
+
+      .folder-tree {
+        font-size: 13px;
+      }
+
+      .folder-item {
+        padding: 10px 12px;
+      }
+
+      .subfolder {
+        padding-left: 24px;
+      }
+
+      .excel-preview {
+        font-size: 11px;
+        overflow-x: auto;
+      }
+
+      .excel-header, .excel-row {
+        min-width: 500px;
+      }
+
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      /* Dashboard mobile layout */
+      #page-dashboard > div:last-child {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .page-title {
+        font-size: 22px;
+      }
+
+      .email-subject {
+        font-size: 14px;
+      }
+
+      .email-preview {
+        font-size: 12px;
+        -webkit-line-clamp: 2;
+      }
+
+      .btn {
+        padding: 10px 16px;
+        font-size: 13px;
+      }
+    }
   </style>
 </head>
 <body>
+
+<!-- Mobile Header -->
+<div class="mobile-header">
+  <div style="display: flex; align-items: center; gap: 12px;">
+    <div class="logo-icon">⚡</div>
+    <div>
+      <div style="font-size: 14px; font-weight: 600;">Alpha Piling</div>
+    </div>
+  </div>
+  <div style="font-size: 12px; color: var(--text-secondary);">Demo</div>
+</div>
+
+<!-- Mobile Bottom Nav -->
+<nav class="mobile-nav">
+  <div class="mobile-nav-items">
+    <div class="mobile-nav-item active" onclick="showPageMobile('dashboard')">
+      <span class="icon">📊</span>
+      Dashboard
+    </div>
+    <div class="mobile-nav-item" onclick="showPageMobile('inbox')">
+      <span class="icon">📧</span>
+      Inbox
+    </div>
+    <div class="mobile-nav-item" onclick="showPageMobile('processing')">
+      <span class="icon">⚙️</span>
+      Processing
+    </div>
+    <div class="mobile-nav-item" onclick="showPageMobile('drive')">
+      <span class="icon">📁</span>
+      Drive
+    </div>
+  </div>
+</nav>
 
 <div class="app">
   <!-- Sidebar -->
@@ -1326,6 +1587,21 @@ function showPage(pageId) {
   
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   event.target.closest('.nav-item')?.classList.add('active');
+  
+  // Update mobile nav
+  document.querySelectorAll('.mobile-nav-item').forEach(n => n.classList.remove('active'));
+}
+
+function showPageMobile(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + pageId).classList.add('active');
+  
+  // Update mobile nav
+  document.querySelectorAll('.mobile-nav-item').forEach(n => n.classList.remove('active'));
+  event.target.closest('.mobile-nav-item')?.classList.add('active');
+  
+  // Update sidebar nav too
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
 }
 
 function showToast(message) {

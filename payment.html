@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deposit Payment | Alpha Piling Automation | Altitude AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0F2940;
+            --secondary: #1E5F8A;
+            --accent: #E85D04;
+            --accent-light: #FEF0E6;
+            --dark: #1A1A2E;
+            --grey: #6B7280;
+            --light-grey: #F3F4F6;
+            --white: #FFFFFF;
+            --success: #059669;
+            --success-light: #ECFDF5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--accent) 0%, #FF7B2E 100%);
+            padding: 32px;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .logo {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0.9;
+            margin-bottom: 16px;
+        }
+
+        .card-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .card-header p {
+            opacity: 0.9;
+            font-size: 15px;
+        }
+
+        .card-body {
+            padding: 32px;
+        }
+
+        .amount-box {
+            text-align: center;
+            padding: 24px;
+            background: var(--light-grey);
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+
+        .amount-label {
+            font-size: 13px;
+            color: var(--grey);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .amount {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .amount-note {
+            font-size: 14px;
+            color: var(--grey);
+            margin-top: 8px;
+        }
+
+        .project-summary {
+            margin-bottom: 24px;
+        }
+
+        .project-summary h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 12px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--light-grey);
+            font-size: 14px;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-label {
+            color: var(--grey);
+        }
+
+        .summary-value {
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .pay-btn {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent) 0%, #FF7B2E 100%);
+            color: var(--white);
+            text-align: center;
+            padding: 18px 32px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 14px rgba(232, 93, 4, 0.4);
+        }
+
+        .pay-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(232, 93, 4, 0.5);
+        }
+
+        .secure-note {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 16px;
+            font-size: 13px;
+            color: var(--grey);
+        }
+
+        .next-steps {
+            margin-top: 24px;
+            padding: 20px;
+            background: var(--success-light);
+            border-radius: 12px;
+            border-left: 4px solid var(--success);
+        }
+
+        .next-steps h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--success);
+            margin-bottom: 12px;
+        }
+
+        .next-steps ol {
+            margin: 0;
+            padding-left: 18px;
+            font-size: 14px;
+            color: var(--dark);
+        }
+
+        .next-steps li {
+            padding: 4px 0;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 24px;
+            color: rgba(255,255,255,0.7);
+            font-size: 13px;
+        }
+
+        .footer a {
+            color: var(--white);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <div class="logo">Altitude AI</div>
+                <h1>Project Deposit</h1>
+                <p>Alpha Piling Enquiry Automation</p>
+            </div>
+            
+            <div class="card-body">
+                <div class="amount-box">
+                    <div class="amount-label">50% Deposit</div>
+                    <div class="amount">£2,750</div>
+                    <div class="amount-note">of £5,500 total project cost</div>
+                </div>
+
+                <div class="project-summary">
+                    <h3>Project Summary</h3>
+                    <div class="summary-item">
+                        <span class="summary-label">Project</span>
+                        <span class="summary-value">Enquiry Automation & Pile Extraction</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Client</span>
+                        <span class="summary-value">Alpha Piling Ltd</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Timeline</span>
+                        <span class="summary-value">8 weeks</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Remaining</span>
+                        <span class="summary-value">£2,750 on completion</span>
+                    </div>
+                </div>
+
+                <a href="https://link.fastpaydirect.com/payment-link/6978214c62e9f98a6dd032f5" target="_blank" class="pay-btn">
+                    Pay £2,750 Deposit →
+                </a>
+
+                <div class="secure-note">
+                    🔒 Secure payment via FastPay Direct
+                </div>
+
+                <div class="next-steps">
+                    <h4>What happens next?</h4>
+                    <ol>
+                        <li>Payment confirmed</li>
+                        <li>You send sample files (enquiry emails, pile drawings)</li>
+                        <li>We begin Week 1 build</li>
+                        <li>Final £2,750 due on completion</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Questions? <a href="mailto:bolaji@altitudeai.co.uk">bolaji@altitudeai.co.uk</a></p>
+        </div>
+    </div>
+</body>
+</html>

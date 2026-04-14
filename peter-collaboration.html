@@ -26,6 +26,97 @@
             padding: 40px 20px;
         }
         
+        /* Password Gate Styles */
+        .password-gate {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg);
+            z-index: 1000;
+        }
+        
+        .password-box {
+            background: white;
+            padding: 48px;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        
+        .password-box .logo {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+        
+        .password-box h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+        
+        .password-box .subtitle {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 32px;
+        }
+        
+        .password-box input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+            margin-bottom: 16px;
+            transition: border-color 0.2s;
+        }
+        
+        .password-box input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        .password-box button {
+            width: 100%;
+            padding: 14px 24px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .password-box button:hover {
+            background: #D14D00;
+        }
+        
+        .password-box .error {
+            color: #DC2626;
+            font-size: 14px;
+            margin-top: 12px;
+            display: none;
+        }
+        
+        .content-hidden {
+            display: none;
+        }
+        
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -209,7 +300,20 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <!-- Password Gate -->
+    <div class="password-gate" id="passwordGate">
+        <div class="password-box">
+            <div class="logo">Altitude AI</div>
+            <h2>Protected Document</h2>
+            <p class="subtitle">Enter the password to view this agreement</p>
+            <input type="password" id="passwordInput" placeholder="Enter password" onkeypress="if(event.key==='Enter')checkPassword()">
+            <button onclick="checkPassword()">Access Document</button>
+            <p class="error" id="errorMsg">Incorrect password. Please try again.</p>
+        </div>
+    </div>
+    
+    <!-- Main Content (hidden until password entered) -->
+    <div class="container content-hidden" id="mainContent">
         <div class="header">
             <div class="badge">Draft Agreement</div>
             <h1>Collaboration Terms</h1>
@@ -224,7 +328,7 @@
             
             <h3>Key Discussion Points</h3>
             <ul>
-                <li><strong>Immediate opportunity:</strong> Alpha Piling Ltd — an enquiry automation + pile schedule extraction project (£5,500 value, deposit received)</li>
+                <li><strong>Immediate opportunity:</strong> Alpha Piling Ltd — an enquiry automation + pile schedule extraction project (£5,500 value, deposit pending)</li>
                 <li><strong>Peter's background:</strong> Infrastructure systems engineer, Go developer, 20+ years experience (Visa, PlayStation, MBFG), expertise in regulated environments and cloud platforms (AWS, Azure, GCP)</li>
                 <li><strong>Bolaji's background:</strong> Business development, GTM infrastructure, lead generation. Currently Global Head of AI Solutions (corporate). Digital agency experience.</li>
                 <li><strong>Complementary strengths:</strong> Bolaji generates leads and handles commercial relationships; Peter builds and delivers solutions</li>
@@ -395,5 +499,32 @@
             <p style="margin-top: 8px;">Altitude AI Consulting · April 2026</p>
         </div>
     </div>
+    
+    <script>
+        // Simple password protection (client-side)
+        const PASSWORD = 'altitude2026';
+        
+        function checkPassword() {
+            const input = document.getElementById('passwordInput').value;
+            const errorMsg = document.getElementById('errorMsg');
+            const gate = document.getElementById('passwordGate');
+            const content = document.getElementById('mainContent');
+            
+            if (input === PASSWORD) {
+                gate.style.display = 'none';
+                content.classList.remove('content-hidden');
+                sessionStorage.setItem('authenticated', 'true');
+            } else {
+                errorMsg.style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+            }
+        }
+        
+        // Check if already authenticated in this session
+        if (sessionStorage.getItem('authenticated') === 'true') {
+            document.getElementById('passwordGate').style.display = 'none';
+            document.getElementById('mainContent').classList.remove('content-hidden');
+        }
+    </script>
 </body>
 </html>
